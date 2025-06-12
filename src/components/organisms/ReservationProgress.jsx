@@ -3,8 +3,8 @@ import React from 'react';
 const ReservationProgress = ({ step }) => {
     return (
         <div className="max-w-2xl mx-auto mb-8">
-            <div className="flex items-center justify-between">
-                {[1, 2, 3].map((stepNumber) => (
+<div className="flex items-center justify-between">
+                {[1, 2, 3, 4].map((stepNumber) => (
                     <div key={stepNumber} className="flex items-center">
                         <div
                             className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-colors ${
@@ -25,10 +25,11 @@ const ReservationProgress = ({ step }) => {
                     </div>
                 ))}
             </div>
-            <div className="flex justify-between mt-2 text-sm text-surface-600">
+<div className="flex justify-between mt-2 text-sm text-surface-600">
                 <span>Date & Time</span>
                 <span>Contact Info</span>
-                <span>Confirmation</span>
+                <span>Review</span>
+                <span>Complete</span>
             </div>
         </div>
     );
