@@ -355,10 +355,10 @@ const nextStep = () => {
                                     ? 'bg-primary text-white hover:bg-primary/90'
                                     : 'bg-surface-200 text-surface-500 cursor-not-allowed'
                             }`}
-                            whileHover={{ scale: 1.05 }}
+whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            {step === 3 ? 'Confirm' : 'Next'}
+                            Next
                             <ApperIcon name="ChevronRight" className="w-4 h-4 inline ml-1" />
                         </Button>
                     ) : (
