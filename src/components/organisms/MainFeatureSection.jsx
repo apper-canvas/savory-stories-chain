@@ -1,10 +1,17 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from './ApperIcon';
-import { menuService, reservationService } from '../services';
+import ApperIcon from '@/components/ApperIcon';
+import MenuItemCard from '@/components/molecules/MenuItemCard';
+import Button from '@/components/atoms/Button';
+import Heading from '@/components/atoms/Heading';
+import Paragraph from '@/components/atoms/Paragraph';
+import Input from '@/components/atoms/Input';
+import Select from '@/components/atoms/Select';
 
-const MainFeature = () => {
+import { menuService, reservationService } from '@/services';
+
+const MainFeatureSection = () => {
   const [featuredItems, setFeaturedItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -65,6 +72,18 @@ const MainFeature = () => {
     '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM', '9:00 PM'
   ];
 
+  const guestOptions = Array.from({ length: 8 }, (_, i) => ({
+      value: i + 1,
+      label: `${i + 1} ${i + 1 === 1 ? 'Guest' : 'Guests'}`
+  }));
+
+  const timeOptions = [{ value: '', label: 'Select time' }, ...timeSlots.map(time => ({ value: time, label: time }))];
+
+  const getMinDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   if (loading) {
     return (
       <div className="py-16 bg-surface-50">
@@ -93,13 +112,13 @@ const MainFeature = () => {
       <div className="py-16 bg-surface-50">
         <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
           <ApperIcon name="AlertCircle" className="w-12 h-12 text-accent mx-auto mb-4" />
-          <p className="text-surface-600 mb-4">{error}</p>
-          <button
+          <Paragraph className="mb-4">{error}</Paragraph>
+          <Button
             onClick={() => window.location.reload()}
-            className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+            className="px-6 py-2 bg-primary text-white hover:bg-primary/90"
           >
             Try Again
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -114,63 +133,17 @@ const MainFeature = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-surface-900 mb-4">
+          <Heading as="h2" className="text-3xl md:text-4xl font-bold text-surface-900 mb-4">
             Featured Dishes
-          </h2>
-          <p className="text-surface-600 text-lg max-w-2xl mx-auto">
+          </Heading>
+          <Paragraph className="text-lg max-w-2xl mx-auto">
             Discover our chef's signature creations that define the Savory Stories experience
-          </p>
+          </Paragraph>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {featuredItems.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -5 }}
-              className="bg-white rounded-xl shadow-md overflow-hidden group cursor-pointer"
-            >
-              <div className="aspect-w-16 aspect-h-12 relative overflow-hidden">
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute top-4 right-4">
-                  <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-primary">
-                    {item.category}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <h3 className="font-heading text-xl font-semibold text-surface-900 mb-2">
-                  {item.name}
-                </h3>
-                <p className="text-surface-600 mb-4 line-clamp-2">
-                  {item.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold text-primary">
-                    ${item.price}
-                  </span>
-                  {item.dietary?.length > 0 && (
-                    <div className="flex space-x-1">
-                      {item.dietary.map((diet) => (
-                        <span
-                          key={diet}
-                          className="px-2 py-1 bg-secondary/20 text-primary text-xs rounded-full"
-                        >
-                          {diet}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </motion.div>
+            <MenuItemCard key={item.id} item={item} index={index} />
           ))}
         </div>
 
@@ -182,76 +155,69 @@ const MainFeature = () => {
           className="bg-white rounded-xl shadow-lg p-8"
         >
           <div className="text-center mb-8">
-            <h2 className="font-heading text-3xl font-bold text-surface-900 mb-4">
+            <Heading as="h2" className="text-3xl font-bold text-surface-900 mb-4">
               Quick Reservation
-            </h2>
-            <p className="text-surface-600">
+            </Heading>
+            <Paragraph>
               Secure your table with just a few clicks
-            </p>
+            </Paragraph>
           </div>
 
           <form onSubmit={handleQuickReservation} className="max-w-4xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
               <div>
-                <label className="block text-sm font-medium text-surface-700 mb-2">
-                  Date
-                </label>
-                <input
+                <Label htmlFor="quick-reservation-date">Date</Label>
+                <Input
+                  id="quick-reservation-date"
                   type="date"
                   value={quickReservation.date}
                   onChange={(e) => setQuickReservation(prev => ({ ...prev, date: e.target.value }))}
-                  min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-3 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  min={getMinDate()}
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-surface-700 mb-2">
-                  Time
-                </label>
-                <select
+                <Label htmlFor="quick-reservation-time">Time</Label>
+                <Select
+                  id="quick-reservation-time"
                   value={quickReservation.time}
                   onChange={(e) => setQuickReservation(prev => ({ ...prev, time: e.target.value }))}
-                  className="w-full px-4 py-3 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                   required
                 >
-                  <option value="">Select time</option>
-                  {timeSlots.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
+                  {timeOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-surface-700 mb-2">
-                  Guests
-                </label>
-                <select
+                <Label htmlFor="quick-reservation-guests">Guests</Label>
+                <Select
+                  id="quick-reservation-guests"
                   value={quickReservation.guests}
                   onChange={(e) => setQuickReservation(prev => ({ ...prev, guests: parseInt(e.target.value) }))}
-                  className="w-full px-4 py-3 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
                 >
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-                    <option key={num} value={num}>
-                      {num} {num === 1 ? 'Guest' : 'Guests'}
+                  {guestOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
 
               <div className="flex items-end">
-                <motion.button
+                <Button
+                  type="submit"
+                  className="w-full px-6 py-3 bg-accent text-white hover:bg-accent/90 flex items-center justify-center space-x-2"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent/90 transition-colors flex items-center justify-center space-x-2"
                 >
                   <ApperIcon name="Calendar" className="w-5 h-5" />
                   <span>Reserve Now</span>
-                </motion.button>
+                </Button>
               </div>
             </div>
           </form>
@@ -261,4 +227,4 @@ const MainFeature = () => {
   );
 };
 
-export default MainFeature;
+export default MainFeatureSection;

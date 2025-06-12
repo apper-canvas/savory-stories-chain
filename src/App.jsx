@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-white">
         <Routes>
-          <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
             <Route index element={<routes.home.component />} />
             {routeArray.map((route) => (
               <Route
