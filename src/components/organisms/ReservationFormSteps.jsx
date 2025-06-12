@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import FormField from '@/components/molecules/FormField';
 import Button from '@/components/atoms/Button';
+import Label from '@/components/atoms/Label';
 import ApperIcon from '@/components/ApperIcon';
 import Heading from '@/components/atoms/Heading';
 import Paragraph from '@/components/atoms/Paragraph';
