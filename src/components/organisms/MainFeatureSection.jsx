@@ -8,6 +8,7 @@ import Heading from '@/components/atoms/Heading';
 import Paragraph from '@/components/atoms/Paragraph';
 import Input from '@/components/atoms/Input';
 import Select from '@/components/atoms/Select';
+import Label from '@/components/atoms/Label';
 
 import { menuService, reservationService } from '@/services';
 
