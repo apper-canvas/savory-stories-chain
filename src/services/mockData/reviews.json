@@ -1,0 +1,44 @@
+[
+  {
+    "id": "rev_1",
+    "author": "Jessica Parker",
+    "rating": 5,
+    "comment": "Absolutely incredible dining experience! The wagyu beef tenderloin was cooked to perfection and the service was impeccable. The atmosphere is elegant yet comfortable. We'll definitely be returning for our next special occasion.",
+    "date": "2024-01-28"
+  },
+  {
+    "id": "rev_2",
+    "author": "David Thompson",
+    "rating": 5,
+    "comment": "Outstanding food and exceptional service. The truffle arancini appetizer was a revelation - crispy outside, creamy inside with the perfect truffle flavor. Our server was knowledgeable about wine pairings and made excellent recommendations.",
+    "date": "2024-01-25"
+  },
+  {
+    "id": "rev_3",
+    "author": "Maria Santos",
+    "rating": 4,
+    "comment": "Lovely restaurant with a great ambiance. The salmon was perfectly prepared and the quinoa pilaf was a nice touch. The chocolate lava cake for dessert was divine. Service was attentive without being intrusive. Highly recommend!",
+    "date": "2024-01-22"
+  },
+  {
+    "id": "rev_4",
+    "author": "Robert Kim",
+    "rating": 5,
+    "comment": "Chef Marcus has created something truly special here. Every dish we tried was expertly crafted with high-quality ingredients. The wine selection is impressive and the staff clearly knows their menu well. A gem in the city!",
+    "date": "2024-01-20"
+  },
+  {
+    "id": "rev_5",
+    "author": "Amanda Foster",
+    "rating": 4,
+    "comment": "Wonderful experience for our anniversary dinner. The burrata caprese was fresh and flavorful, and the osso buco was fall-off-the-bone tender. The reservation process was smooth and they accommodated our request for a quiet table.",
+    "date": "2024-01-18"
+  },
+  {
+    "id": "rev_6",
+    "author": "James Wilson",
+    "rating": 5,
+    "comment": "Exceptional restaurant! The attention to detail in both food preparation and presentation is remarkable. The mushroom wellington was surprisingly hearty and flavorful - a great vegetarian option. The tiramisu was the perfect end to our meal.",
+    "date": "2024-01-15"
+  }
+]
