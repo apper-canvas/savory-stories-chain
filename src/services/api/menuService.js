@@ -8,12 +8,48 @@ const menuService = {
     return [...menuData];
   },
 
-  async getById(id) {
+async getById(id) {
+    console.log('🔍 menuService.getById: Starting lookup for id:', id);
+    const startTime = performance.now();
+    
     await delay(200);
-    const item = menuData.find(item => item.id === id);
+    
+    console.log('🔍 menuService.getById: Searching in menu data...', {
+      searchId: id,
+      searchType: typeof id,
+      totalItems: menuData.length,
+      availableIds: menuData.map(item => ({ id: item.id, type: typeof item.id, name: item.name }))
+    });
+    
+    const item = menuData.find(item => {
+      const match = item.id === id;
+      console.log('🔍 menuService.getById: Comparing:', {
+        itemId: item.id,
+        itemIdType: typeof item.id,
+        searchId: id,
+        searchIdType: typeof id,
+        matches: match
+      });
+      return match;
+    });
+    
+    const endTime = performance.now();
+    console.log('🔍 menuService.getById: Search completed', {
+      duration: `${(endTime - startTime).toFixed(2)}ms`,
+      found: !!item,
+      result: item ? { id: item.id, name: item.name, category: item.category } : null
+    });
+    
     if (!item) {
-      throw new Error('Menu item not found');
+      console.error('❌ menuService.getById: Menu item not found!', {
+        searchedId: id,
+        searchedType: typeof id,
+        availableIds: menuData.map(item => ({ id: item.id, type: typeof item.id }))
+      });
+      throw new Error(`Menu item not found for id: ${id}`);
     }
+    
+    console.log('✅ menuService.getById: Item found and returning copy');
     return { ...item };
   },
 

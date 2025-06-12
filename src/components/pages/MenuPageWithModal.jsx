@@ -10,41 +10,139 @@ import MenuItemModal from '@/components/organisms/MenuItemModal';
 import { menuService } from '@/services';
 
 const MenuPage = () => {
-    const [items, setItems] = useState([]);
+const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedItem, setSelectedItem] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Debug: Log state changes
+    console.log('🔍 MenuPageWithModal State:', {
+        itemsCount: items.length,
+        loading,
+        selectedCategory,
+        searchTerm,
+        selectedItem: selectedItem ? { id: selectedItem.id, name: selectedItem.name } : null,
+        isModalOpen
+    });
     const categories = ["All", "Appetizers", "Main Courses", "Desserts", "Beverages"];
 
-    const loadMenuItems = async () => {
+const loadMenuItems = async () => {
+        console.log('🔄 loadMenuItems: Starting menu items load...');
+        const startTime = performance.now();
+        
         try {
             setLoading(true);
+            console.log('🔄 loadMenuItems: Loading state set to true');
+            
             const menuItems = await menuService.getAll();
+            console.log('✅ loadMenuItems: Received menu items:', {
+                count: menuItems.length,
+                items: menuItems.map(item => ({ id: item.id, name: item.name, category: item.category }))
+            });
+            
             setItems(menuItems);
+            console.log('✅ loadMenuItems: Items state updated');
         } catch (error) {
-            console.error('Error loading menu items:', error);
+            console.error('❌ loadMenuItems: Error loading menu items:', error);
+            console.error('❌ loadMenuItems: Error details:', {
+                message: error.message,
+                stack: error.stack
+            });
             toast.error('Failed to load menu items');
         } finally {
             setLoading(false);
+            const endTime = performance.now();
+            console.log('🔄 loadMenuItems: Loading completed', {
+                duration: `${(endTime - startTime).toFixed(2)}ms`,
+                loadingState: false
+            });
         }
     };
 
-    const handleItemClick = (item) => {
+const handleItemClick = (item) => {
+        console.log('🎯 handleItemClick: Menu item clicked!', {
+            clickedItem: {
+                id: item?.id,
+                name: item?.name,
+                category: item?.category,
+                price: item?.price
+            },
+            currentSelectedItem: selectedItem ? { id: selectedItem.id, name: selectedItem.name } : null,
+            currentModalState: isModalOpen
+        });
+
+        if (!item) {
+            console.error('❌ handleItemClick: No item provided to click handler');
+            return;
+        }
+
+        if (!item.id) {
+            console.error('❌ handleItemClick: Item missing required id field:', item);
+            return;
+        }
+
+        console.log('✅ handleItemClick: Setting selected item...');
         setSelectedItem(item);
+        
+        console.log('✅ handleItemClick: Opening modal...');
         setIsModalOpen(true);
+        
+        console.log('🎯 handleItemClick: State updates initiated', {
+            newSelectedItem: { id: item.id, name: item.name },
+            newModalState: true
+        });
     };
 
     const handleCloseModal = () => {
+        console.log('🔽 handleCloseModal: Closing modal...', {
+            currentSelectedItem: selectedItem ? { id: selectedItem.id, name: selectedItem.name } : null,
+            currentModalState: isModalOpen
+        });
+        
         setIsModalOpen(false);
+        console.log('✅ handleCloseModal: Modal state set to false');
+        
         setSelectedItem(null);
+        console.log('✅ handleCloseModal: Selected item cleared');
     };
 
-    useEffect(() => {
+useEffect(() => {
+        console.log('🔄 useEffect: Component mounted, loading menu items...');
         loadMenuItems();
     }, []);
+
+    // Debug: Monitor selectedItem changes
+    useEffect(() => {
+        console.log('🔍 useEffect selectedItem changed:', {
+            previousItem: 'tracked in state',
+            newSelectedItem: selectedItem ? {
+                id: selectedItem.id,
+                name: selectedItem.name,
+                category: selectedItem.category,
+                price: selectedItem.price,
+                description: selectedItem.description?.substring(0, 50) + '...'
+            } : null
+        });
+    }, [selectedItem]);
+
+    // Debug: Monitor modal state changes
+    useEffect(() => {
+        console.log('🔍 useEffect isModalOpen changed:', {
+            newModalState: isModalOpen,
+            hasSelectedItem: !!selectedItem,
+            selectedItemId: selectedItem?.id || 'none'
+        });
+        
+        if (isModalOpen && !selectedItem) {
+            console.warn('⚠️ Modal is open but no selectedItem available!');
+        }
+        
+        if (!isModalOpen && selectedItem) {
+            console.warn('⚠️ Modal is closed but selectedItem still exists!');
+        }
+    }, [isModalOpen, selectedItem]);
 
     const filteredItems = items.filter(item => {
         const matchesCategory = selectedCategory === 'All' || item.category === selectedCategory;
@@ -101,11 +199,21 @@ const MenuPage = () => {
             </div>
 
             {/* Menu Item Modal */}
-            <MenuItemModal
+<MenuItemModal
                 item={selectedItem}
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
             />
+            
+            {/* Debug: Modal render tracking */}
+            {console.log('🎨 Rendering MenuItemModal:', {
+                modalProps: {
+                    item: selectedItem ? { id: selectedItem.id, name: selectedItem.name } : null,
+                    isOpen: isModalOpen,
+                    onClose: typeof handleCloseModal
+                },
+                shouldRender: isModalOpen && selectedItem
+            })}
         </div>
     );
 };
