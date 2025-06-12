@@ -24,7 +24,7 @@ const ReservationFormSteps = ({ formData, setFormData, step, setStep, loading, s
         }));
     };
 
-    const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
 
@@ -40,7 +40,7 @@ const ReservationFormSteps = ({ formData, setFormData, step, setStep, loading, s
                 guests: 2,
                 specialRequests: ''
             });
-            setStep(1);
+            // Don't reset step - allow user to see confirmation
         } catch (err) {
             toast.error('Failed to create reservation. Please try again.');
         } finally {
