@@ -91,10 +91,10 @@ const CartModal = ({ isOpen, onClose }) => {
         specialInstructions: customerInfo.specialInstructions
       };
 
-      const order = await orderService.create(orderData);
+const order = await orderService.create(orderData);
       
       dispatch(clearCart());
-      toast.success(`Order placed successfully! Order #${order.orderNumber}`);
+      toast.success(`Order placed successfully! Your order number is #${order.orderNumber}. Save this number to track your order status.`);
       onClose();
       setShowCheckoutForm(false);
       setCustomerInfo({
