@@ -4,7 +4,13 @@ import Image from '@/components/atoms/Image';
 import Heading from '@/components/atoms/Heading';
 import Paragraph from '@/components/atoms/Paragraph';
 
-const MenuItemCard = ({ item, index }) => {
+const MenuItemCard = ({ item, index, onClick }) => {
+    const handleClick = () => {
+        if (onClick) {
+            onClick(item);
+        }
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -12,6 +18,7 @@ const MenuItemCard = ({ item, index }) => {
             transition={{ delay: index * 0.1 }}
             whileHover={{ y: -5 }}
             className="bg-white rounded-xl shadow-md overflow-hidden group cursor-pointer"
+            onClick={handleClick}
         >
             <div className="relative overflow-hidden">
                 <Image
