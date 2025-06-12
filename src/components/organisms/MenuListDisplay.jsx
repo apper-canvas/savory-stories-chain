@@ -5,7 +5,7 @@ import Heading from '@/components/atoms/Heading';
 import ApperIcon from '@/components/ApperIcon';
 import Paragraph from '@/components/atoms/Paragraph';
 
-const MenuListDisplay = ({ filteredItems, activeCategory, categories, groupedItems }) => {
+const MenuListDisplay = ({ filteredItems, activeCategory, categories, groupedItems, onItemClick }) => {
     return (
         <AnimatePresence mode="wait">
             {activeCategory === 'All' ? (
@@ -25,7 +25,7 @@ const MenuListDisplay = ({ filteredItems, activeCategory, categories, groupedIte
                                 </Heading>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                     {groupedItems[category].map((item, index) => (
-                                        <MenuItemCard key={item.id} item={item} index={index} />
+<MenuItemCard key={item.id} item={item} index={index} onClick={onItemClick} />
                                     ))}
                                 </div>
                             </div>
@@ -42,7 +42,7 @@ const MenuListDisplay = ({ filteredItems, activeCategory, categories, groupedIte
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                 >
                     {filteredItems.map((item, index) => (
-                        <MenuItemCard key={item.id} item={item} index={index} />
+<MenuItemCard key={item.id} item={item} index={index} onClick={onItemClick} />
                     ))}
                 </motion.div>
             )}
