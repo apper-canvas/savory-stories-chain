@@ -51,7 +51,36 @@ const orderService = {
       throw new Error('Order not found');
     }
     orders.splice(index, 1);
-    return { success: true };
+return { success: true };
+  },
+
+  async getByOrderNumber(orderNumber) {
+    await delay(250);
+    const order = orders.find(order => order.orderNumber === orderNumber);
+    if (!order) {
+      throw new Error(`Order not found for order number: ${orderNumber}`);
+    }
+    return { ...order };
+  },
+
+  async updateStatus(id, status) {
+    await delay(400);
+    const index = orders.findIndex(order => order.id === id);
+    if (index === -1) {
+      throw new Error('Order not found');
+    }
+    
+    const validStatuses = ['pending', 'confirmed', 'preparing', 'ready', 'delivered', 'cancelled'];
+    if (!validStatuses.includes(status)) {
+      throw new Error('Invalid order status');
+    }
+    
+    orders[index] = { 
+      ...orders[index], 
+      status,
+      updatedAt: new Date().toISOString()
+    };
+    return { ...orders[index] };
   }
 };
 
