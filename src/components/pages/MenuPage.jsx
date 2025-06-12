@@ -10,16 +10,18 @@ import Button from '@/components/atoms/Button';
 import MenuFilters from '@/components/organisms/MenuFilters';
 import MenuListDisplay from '@/components/organisms/MenuListDisplay';
 import CartModal from '@/components/organisms/CartModal';
+import MenuItemModal from '@/components/organisms/MenuItemModal';
 
 import { menuService } from '@/services';
 const MenuPage = () => {
-  const [menuItems, setMenuItems] = useState([]);
+const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [showCartModal, setShowCartModal] = useState(false);
-  
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [showMenuModal, setShowMenuModal] = useState(false);
   const { totalItems } = useSelector(state => state.cart);
   const categories = ['All', 'Appetizers', 'Main Courses', 'Desserts', 'Beverages'];
 
@@ -40,8 +42,7 @@ const MenuPage = () => {
 
     loadMenuItems();
   }, []);
-
-  const filteredItems = menuItems.filter(item => {
+const filteredItems = menuItems.filter(item => {
     const matchesCategory = activeCategory === 'All' || item.category === activeCategory;
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          item.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -54,6 +55,10 @@ const MenuPage = () => {
     return acc;
   }, {});
 
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setShowMenuModal(true);
+  };
   if (loading) {
     return (
       <div className="py-8">
@@ -146,11 +151,12 @@ const MenuPage = () => {
             setSearchTerm={setSearchTerm}
         />
 
-        <MenuListDisplay
+<MenuListDisplay
             filteredItems={filteredItems}
             activeCategory={activeCategory}
             categories={categories}
             groupedItems={groupedItems}
+            onItemClick={handleItemClick}
         />
       </div>
 
@@ -173,10 +179,17 @@ const MenuPage = () => {
         </motion.div>
       )}
 
-      {/* Cart Modal */}
+{/* Cart Modal */}
       <CartModal 
         isOpen={showCartModal} 
         onClose={() => setShowCartModal(false)} 
+      />
+
+      {/* Menu Item Modal */}
+      <MenuItemModal
+        item={selectedItem}
+        isOpen={showMenuModal}
+        onClose={() => setShowMenuModal(false)}
       />
     </div>
   );
