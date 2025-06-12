@@ -60,7 +60,7 @@ const ReservationFormSteps = ({ formData, setFormData, step, setStep, loading, s
     };
 
 const nextStep = () => {
-        if (canProceedToNext() && step < 4) {
+        if (canProceedToNext() && step < 3) {
             setStep(step + 1);
         }
     };
@@ -345,7 +345,7 @@ const nextStep = () => {
                         Previous
                     </Button>
 
-                    {step < 4 ? (
+{step < 3 ? (
                         <Button
                             type="button"
                             onClick={nextStep}
@@ -355,7 +355,7 @@ const nextStep = () => {
                                     ? 'bg-primary text-white hover:bg-primary/90'
                                     : 'bg-surface-200 text-surface-500 cursor-not-allowed'
                             }`}
-whileHover={{ scale: 1.05 }}
+                            whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             Next
