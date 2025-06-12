@@ -60,7 +60,7 @@ const ReservationFormSteps = ({ formData, setFormData, step, setStep, loading, s
     };
 
 const nextStep = () => {
-        if (canProceedToNext() && step < 3) {
+        if (canProceedToNext() && step < 4) {
             setStep(step + 1);
         }
     };
@@ -88,68 +88,7 @@ const nextStep = () => {
             transition={{ delay: 0.2 }}
             className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-8"
         >
-            {step === 3 ? (
-                <div className="space-y-6">
-                    <div className="text-center mb-8">
-                        <Heading level={2} className="text-2xl font-bold text-surface-900 mb-2">
-                            Review Your Reservation
-                        </Heading>
-                        <Paragraph className="text-surface-600">
-                            Please review your reservation details before confirming
-                        </Paragraph>
-                    </div>
-
-                    <div className="bg-surface-50 rounded-lg p-6 space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <h3 className="font-semibold text-surface-900 mb-3">Reservation Details</h3>
-                                <div className="space-y-2">
-                                    <div className="flex justify-between">
-                                        <span className="text-surface-600">Date:</span>
-                                        <span className="font-medium text-surface-900">{formData.date}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-surface-600">Time:</span>
-                                        <span className="font-medium text-surface-900">{formData.time}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-surface-600">Party Size:</span>
-                                        <span className="font-medium text-surface-900">{formData.guests} guests</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <h3 className="font-semibold text-surface-900 mb-3">Contact Information</h3>
-                                <div className="space-y-2">
-                                    <div className="flex justify-between">
-                                        <span className="text-surface-600">Name:</span>
-                                        <span className="font-medium text-surface-900">{formData.name}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-surface-600">Email:</span>
-                                        <span className="font-medium text-surface-900">{formData.email}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-surface-600">Phone:</span>
-                                        <span className="font-medium text-surface-900">{formData.phone}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {formData.specialRequests && (
-                            <div className="pt-4 border-t border-surface-200">
-                                <h3 className="font-semibold text-surface-900 mb-2">Special Requests</h3>
-                                <p className="text-surface-700 bg-white p-3 rounded border">
-                                    {formData.specialRequests}
-                                </p>
-                            </div>
-                        )}
-                    </div>
-</div>
-            ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Step 1: Date & Time Selection */}
                 {step === 1 && (
                     <motion.div
@@ -266,8 +205,76 @@ const nextStep = () => {
                     </motion.div>
                 )}
 
-                {/* Step 3: Confirmation */}
+                {/* Step 3: Review Your Reservation */}
                 {step === 3 && (
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        className="space-y-6"
+                    >
+                        <div className="text-center mb-8">
+                            <Heading level={2} className="text-2xl font-bold text-surface-900 mb-2">
+                                Review Your Reservation
+                            </Heading>
+                            <Paragraph className="text-surface-600">
+                                Please review your reservation details before confirming
+                            </Paragraph>
+                        </div>
+
+                        <div className="bg-surface-50 rounded-lg p-6 space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h3 className="font-semibold text-surface-900 mb-3">Reservation Details</h3>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between">
+                                            <span className="text-surface-600">Date:</span>
+                                            <span className="font-medium text-surface-900">{formData.date}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-surface-600">Time:</span>
+                                            <span className="font-medium text-surface-900">{formData.time}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-surface-600">Party Size:</span>
+                                            <span className="font-medium text-surface-900">{formData.guests} guests</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 className="font-semibold text-surface-900 mb-3">Contact Information</h3>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between">
+                                            <span className="text-surface-600">Name:</span>
+                                            <span className="font-medium text-surface-900">{formData.name}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-surface-600">Email:</span>
+                                            <span className="font-medium text-surface-900">{formData.email}</span>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <span className="text-surface-600">Phone:</span>
+                                            <span className="font-medium text-surface-900">{formData.phone}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {formData.specialRequests && (
+                                <div className="pt-4 border-t border-surface-200">
+                                    <h3 className="font-semibold text-surface-900 mb-2">Special Requests</h3>
+                                    <p className="text-surface-700 bg-white p-3 rounded border">
+                                        {formData.specialRequests}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* Step 4: Confirmation */}
+                {step === 4 && (
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -345,7 +352,7 @@ const nextStep = () => {
                         Previous
                     </Button>
 
-{step < 3 ? (
+                    {step < 4 ? (
                         <Button
                             type="button"
                             onClick={nextStep}
@@ -383,8 +390,7 @@ const nextStep = () => {
                         </Button>
                     )}
                 </div>
-                </form>
-            )}
+            </form>
         </motion.div>
     );
 };
