@@ -1,12 +1,11 @@
 import menuService from './api/menuService';
-import reservationService from './api/reservationService';
 import reviewService from './api/reviewService';
-
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+import reservationService from './api/reservationService';
+import orderService from './api/orderService';
 
 export {
   menuService,
-  reservationService,
   reviewService,
-  delay
+  reservationService,
+  orderService
 };

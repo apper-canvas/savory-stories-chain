@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { ShoppingCart } from 'lucide-react';
 import ApperIcon from '@/components/ApperIcon';
 import Heading from '@/components/atoms/Heading';
 import Paragraph from '@/components/atoms/Paragraph';
+import Button from '@/components/atoms/Button';
 import MenuFilters from '@/components/organisms/MenuFilters';
 import MenuListDisplay from '@/components/organisms/MenuListDisplay';
+import CartModal from '@/components/organisms/CartModal';
 
 import { menuService } from '@/services';
-
 const MenuPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [showCartModal, setShowCartModal] = useState(false);
+  
+  const { totalItems } = useSelector(state => state.cart);
   const categories = ['All', 'Appetizers', 'Main Courses', 'Desserts', 'Beverages'];
 
   useEffect(() => {
@@ -117,7 +122,7 @@ const MenuPage = () => {
   }
 
   return (
-    <div className="py-8">
+<div className="py-8 relative">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -148,6 +153,31 @@ const MenuPage = () => {
             groupedItems={groupedItems}
         />
       </div>
+
+      {/* Floating Cart Button */}
+      {totalItems > 0 && (
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="fixed bottom-6 right-6 z-40"
+        >
+          <Button
+            onClick={() => setShowCartModal(true)}
+            className="bg-primary hover:bg-primary-600 text-white shadow-lg rounded-full p-4 relative"
+          >
+            <ShoppingCart className="w-6 h-6" />
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+              {totalItems}
+            </span>
+          </Button>
+        </motion.div>
+      )}
+
+      {/* Cart Modal */}
+      <CartModal 
+        isOpen={showCartModal} 
+        onClose={() => setShowCartModal(false)} 
+      />
     </div>
   );
 };

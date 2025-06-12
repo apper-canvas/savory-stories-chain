@@ -1,0 +1,73 @@
+[
+  {
+    "id": "1",
+    "orderNumber": "ORD-123456",
+    "status": "delivered",
+    "createdAt": "2024-01-15T18:30:00.000Z",
+    "estimatedDelivery": "2024-01-15T19:00:00.000Z",
+    "customer": {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "phone": "555-0123",
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "zipCode": "10001"
+      }
+    },
+    "items": [
+      {
+        "id": "1",
+        "name": "Truffle Risotto",
+        "price": 28,
+        "quantity": 1,
+        "category": "Main Courses"
+      },
+      {
+        "id": "5",
+        "name": "Pan-Seared Salmon",
+        "price": 32,
+        "quantity": 1,
+        "category": "Main Courses"
+      }
+    ],
+    "subtotal": 60,
+    "tax": 4.8,
+    "deliveryFee": 5,
+    "total": 69.8,
+    "paymentMethod": "credit_card",
+    "specialInstructions": "Please ring doorbell twice"
+  },
+  {
+    "id": "2", 
+    "orderNumber": "ORD-789012",
+    "status": "preparing",
+    "createdAt": "2024-01-16T12:15:00.000Z",
+    "estimatedDelivery": "2024-01-16T12:45:00.000Z",
+    "customer": {
+      "name": "Sarah Johnson",
+      "email": "sarah@example.com", 
+      "phone": "555-0456",
+      "address": {
+        "street": "456 Oak Ave",
+        "city": "New York",
+        "zipCode": "10002"
+      }
+    },
+    "items": [
+      {
+        "id": "2",
+        "name": "Seared Duck Breast",
+        "price": 35,
+        "quantity": 2,
+        "category": "Main Courses"
+      }
+    ],
+    "subtotal": 70,
+    "tax": 5.6,
+    "deliveryFee": 5,
+    "total": 80.6,
+    "paymentMethod": "credit_card",
+    "specialInstructions": ""
+  }
+]
